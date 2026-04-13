@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Credicheck Test</title>
+    </head>
+    <body>
+        <h1>Credicheck</h1>
+        <p>Quickly judge if an internship is safe, risky, or need caution.</p>
+        <br><br>
+
+        <form id="internship-form">
+            <label for="internship-title">Internship Title:</label>
+            <br>
+            <input type="text" name="Internship Title" id="internship-title" placeholder="Internship Title">
+            <br><br>
+
+            <label for="company-name">Company Name:</label>
+            <br>
+            <input type="text" name="Company Name" id="company-name" placeholder="Company Name">
+            <br><br>
+
+            <label for="description">Description:</label>
+            <br>
+            <textarea name="Description" id="description" placeholder="Internship Description"></textarea>
+            <br><br>
+
+            <label for="url">Url:</label>
+            <br>
+            <input type="text" name="Url" id="url" placeholder="Url">
+            <br><br>
+
+            <button type="submit">Submit</button>
+        </form>
+
+        <p id="result"></p>
+
+        <script>
+            const form = document.getElementById("internship-form");
+
+            form.addEventListener("submit", function(event) {
+                event.preventDefault();
+
+                let score = 50;
+
+                const companyName = document.getElementById("company-name").value;
+                const description = document.getElementById("description").value;
+                const result = document.getElementById("result");
+
+                if (description.toLowerCase().includes("pay")) {
+                    score -= 10;
+                }
+
+                result.textContent = "Company: " + companyName + " | CrediCheck Score: " + score;
+            });
+        </script>
+    </body>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        textarea {
+            width: 300px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+            font-family: Arial, sans-serif;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</html>
