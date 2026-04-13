@@ -1,99 +1,252 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Credicheck Test</title>
-    </head>
-    <body>
-        <h1>Credicheck</h1>
-        <p>Quickly judge if an internship is safe, risky, or need caution.</p>
-        <br><br>
-
-        <form id="internship-form">
-            <label for="internship-title">Internship Title:</label>
-            <br>
-            <input type="text" name="Internship Title" id="internship-title" placeholder="Internship Title">
-            <br><br>
-
-            <label for="company-name">Company Name:</label>
-            <br>
-            <input type="text" name="Company Name" id="company-name" placeholder="Company Name">
-            <br><br>
-
-            <label for="description">Description:</label>
-            <br>
-            <textarea name="Description" id="description" placeholder="Internship Description"></textarea>
-            <br><br>
-
-            <label for="url">Url:</label>
-            <br>
-            <input type="text" name="Url" id="url" placeholder="Url">
-            <br><br>
-
-            <button type="submit">Submit</button>
-        </form>
-
-        <p id="result"></p>
-
-        <script>
-            const form = document.getElementById("internship-form");
-
-            form.addEventListener("submit", function(event) {
-                event.preventDefault();
-
-                let score = 50;
-
-                const companyName = document.getElementById("company-name").value;
-                const description = document.getElementById("description").value;
-                const result = document.getElementById("result");
-
-                if (description.toLowerCase().includes("pay")) {
-                    score -= 10;
-                }
-
-                result.textContent = "Company: " + companyName + " | CrediCheck Score: " + score;
-            });
-        </script>
-    </body>
-
+<head>
+    <title>CrediCheck</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f4f7fb;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px;
+        }
+
+        .app-card {
+            width: 100%;
+            max-width: 700px;
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 32px;
         }
 
         h1 {
-            color: #333;
+            margin: 0 0 8px 0;
+            color: #1f2937;
+            font-size: 2rem;
         }
 
-        input[type="text"] {
-            width: 300px;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+        .subtitle {
+            margin: 0 0 28px 0;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        label {
+            font-weight: 600;
+            color: #111827;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            background: #fafafa;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background: white;
         }
 
         textarea {
-            width: 300px;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            min-height: 120px;
             resize: vertical;
-            font-family: Arial, sans-serif;
         }
 
         button {
-            padding: 10px 20px;
-            background-color: #007BFF;
+            padding: 14px 18px;
+            background: #2563eb;
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 10px;
             cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background 0.2s ease;
         }
 
         button:hover {
-            background-color: #0056b3;
+            background: #1d4ed8;
+        }
+
+        #result {
+            margin-top: 28px;
+            padding: 20px;
+            border-radius: 14px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            color: #111827;
+            display: none;
+        }
+
+        #result h2 {
+            margin-top: 0;
+            margin-bottom: 16px;
+            font-size: 1.25rem;
+        }
+
+        #result p {
+            margin: 8px 0;
+        }
+
+        #result ul {
+            margin: 10px 0 0 20px;
+            padding: 0;
+        }
+
+        #result li {
+            margin-bottom: 6px;
+        }
+
+        .safe {
+            color: #15803d;
+            font-weight: 700;
+        }
+
+        .caution {
+            color: #b45309;
+            font-weight: 700;
+        }
+
+        .risky {
+            color: #b91c1c;
+            font-weight: 700;
         }
     </style>
+</head>
+
+<body>
+    <div class="app-card">
+        <h1>CrediCheck</h1>
+        <p class="subtitle">
+            Quickly judge if an internship looks safe, risky, or needs caution.
+        </p>
+
+        <form id="internship-form">
+            <div class="field-group">
+                <label for="internship-title">Internship Title</label>
+                <input type="text" id="internship-title" placeholder="Enter internship title">
+            </div>
+
+            <div class="field-group">
+                <label for="company-name">Company Name</label>
+                <input type="text" id="company-name" placeholder="Enter company name">
+            </div>
+
+            <div class="field-group">
+                <label for="description">Description</label>
+                <textarea id="description" placeholder="Paste the internship description here"></textarea>
+            </div>
+
+            <div class="field-group">
+                <label for="url">URL</label>
+                <input type="text" id="url" placeholder="Paste the internship link here">
+            </div>
+
+            <button type="submit">Check Credibility</button>
+        </form>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById("internship-form");
+
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            let score = 50;
+            let reasons = [];
+
+            const companyName = document.getElementById("company-name").value;
+            const description = document.getElementById("description").value;
+            const url = document.getElementById("url").value;
+            const result = document.getElementById("result");
+
+            const lowerDescription = description.toLowerCase();
+            const lowerUrl = url.toLowerCase();
+            const lowerCompany = companyName.toLowerCase();
+
+            const redFlags = ["pay", "fee", "registration", "urgent", "whatsapp"];
+            const trustedPlatforms = ["linkedin.com", "internshala.com", "indeed.com"];
+
+            for (let word of redFlags) {
+                if (lowerDescription.includes(word)) {
+                    score -= 10;
+                    reasons.push("Red flag detected: " + word);
+                }
+            }
+
+            for (let platform of trustedPlatforms) {
+                if (lowerUrl.includes(platform)) {
+                    score += 10;
+                    reasons.push("Trusted platform detected: " + platform);
+                }
+            }
+
+            if (lowerCompany && lowerUrl.includes(lowerCompany.replaceAll(" ", ""))) {
+                score += 10;
+                reasons.push("Company name matches URL");
+            }
+
+            if (score < 0) score = 0;
+            if (score > 100) score = 100;
+
+            let label = "";
+            let labelClass = "";
+
+            if (score >= 70) {
+                label = "Safe";
+                labelClass = "safe";
+            } else if (score >= 40) {
+                label = "Caution";
+                labelClass = "caution";
+            } else {
+                label = "Risky";
+                labelClass = "risky";
+            }
+
+            result.style.display = "block";
+
+            result.innerHTML = `
+                <h2>Result</h2>
+                <p><strong>Company:</strong> ${companyName || "Not provided"}</p>
+                <p><strong>Score:</strong> ${score}</p>
+                <p><strong>Label:</strong> <span class="${labelClass}">${label}</span></p>
+                <p><strong>Reasons:</strong></p>
+                <ul>
+                    ${reasons.length > 0
+                        ? reasons.map(reason => `<li>${reason}</li>`).join("")
+                        : "<li>No strong signals detected yet.</li>"}
+                </ul>
+            `;
+        });
+    </script>
+</body>
 </html>
