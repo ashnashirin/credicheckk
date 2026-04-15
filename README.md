@@ -115,6 +115,6 @@ https://incomparable-empanada-6e2376.netlify.app/
 <img width="1745" height="982" alt="output" src="https://github.com/user-attachments/assets/98105bf1-a41d-418f-a582-c6ef6ac29ed6" />
 
 
-## 🙌 Author
+## Author
 
 Built by Ash
